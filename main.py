@@ -1,4 +1,3 @@
-from datetime import timedelta
 import time
 
 import click
@@ -30,10 +29,11 @@ cli = click.Group()
 
 @cli.command(name="gcw")
 @click.option("--envfile", type=str, help="env file")
-def gcw_command(envfile: str):
+@click.option("--at", type=str, help="at time")
+def gcw_command(envfile: str, at: str):
     settings = Settings(_env_file=envfile)
 
-    schedule.every().day.at("01:24:00").do(job, settings)
+    schedule.every().day.at(at).do(job, settings)
 
     while True:
         n = schedule.idle_seconds()
